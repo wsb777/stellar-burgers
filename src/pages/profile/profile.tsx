@@ -1,42 +1,55 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from '../../services/store';
+import { resetProfile } from '../../slices/userSlice';
+import { getCookie } from '../../utils/cookie';
+import React from 'react';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
-    password: ''
+    name: user.data.name,
+    email: user.data.email,
+    password: user.password
   });
 
   useEffect(() => {
     setFormValue((prevState) => ({
       ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
+      name: user.data.name,
+      email: user.data.email,
+      password: user.password
     }));
   }, [user]);
 
   const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
+    formValue.name !== user.data.name ||
+    formValue.email !== user.data.email ||
+    formValue.password !== user.password;
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    const newUser = {
+      name: formValue.name,
+      email: formValue.email,
+      password: formValue.password
+    };
+    const newPassword = {
+      password: formValue.password,
+      token: JSON.stringify(getCookie('accessToken'))
+    };
+    dispatch(resetProfile(newUser));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.name,
-      email: user.email,
-      password: ''
+      name: user.data.name,
+      email: user.data.email,
+      password: user.password
     });
   };
 

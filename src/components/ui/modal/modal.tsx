@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-
+import React from 'react';
 import styles from './modal.module.css';
 
 import { CloseIcon } from '@zlden/react-developer-burger-ui-components';
