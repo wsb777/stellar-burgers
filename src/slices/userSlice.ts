@@ -66,8 +66,12 @@ const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(authTokenThunk.fulfilled, (state, action) => {
-        state.data = action.payload;
-        state.isAuthChecked = true;
+        if (state.data.email === action.payload.email) {
+          state.isAuthChecked = false;
+        } else {
+          state.data = action.payload;
+          state.isAuthChecked = true;
+        }
         state.isLoading = true;
       })
       .addCase(authTokenThunk.rejected, (state, action) => {

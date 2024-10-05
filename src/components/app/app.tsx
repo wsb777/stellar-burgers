@@ -29,7 +29,7 @@ const App = () => {
   };
   useEffect(() => {
     dispatch(authTokenThunk());
-  });
+  }, []);
   let background = location.state && location.state.background;
 
   return (
@@ -64,23 +64,23 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path='/profile'
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/profile/orders'
-            element={
-              <ProtectedRoute>
-                <ProfileOrders />
-              </ProtectedRoute>
-            }
-          >
-            {' '}
+          <Route path='/profile'>
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='orders'
+              element={
+                <ProtectedRoute>
+                  <ProfileOrders />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path='*' element={<NotFound404 />} />
         </Routes>
