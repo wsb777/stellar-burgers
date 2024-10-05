@@ -11,7 +11,7 @@ import {
 } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { deleteCookie, setCookie } from '../utils/cookie';
+import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
 
 type userState = {
   data: TUser;
@@ -123,8 +123,16 @@ export const userLoginThunk = createAsyncThunk<TUser, TLoginData>(
 );
 
 export const authTokenThunk = createAsyncThunk<TUser>('auth-user', async () => {
-  const response = await getUserApi();
-  const { user } = response;
+  let user = initialState.data;
+  if (!initialState.isAuthChecked) {
+    if (getCookie('accessToken') !== undefined) {
+      const response = await getUserApi();
+      user = response.user;
+      if (!response.success) {
+        deleteCookie('accessToken');
+      }
+    }
+  }
   return user;
 });
 
@@ -135,17 +143,11 @@ export const logoutThunk = createAsyncThunk('user-logout', async () => {
   return response;
 });
 
-export const resetProfile = createAsyncThunk(
-  'reset-user',
-  async (user: TRegisterData) => {
-    const response = await updateUserApi(user);
-    return response;
-  }
-);
+export const resetProfile = createAsyncThunk('reset-user', updateUserApi);
 
 export const forgotPassword = createAsyncThunk(
   'forgot-password',
-  async (data: { email: string }) => forgotPasswordApi(data)
+  forgotPasswordApi
 );
 
 export const userReducer = userSlice.reducer;

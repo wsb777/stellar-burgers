@@ -16,30 +16,27 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { ingridientsThunk } from '../../slices/ingridientsSlice';
-import { AppDispatch } from '../../services/store';
-import { feedThunk } from '../../slices/feedSlice';
+import { useDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { authTokenThunk } from '../../slices/userSlice';
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(ingridientsThunk());
-    dispatch(feedThunk());
-  }, []);
   const clickModalClose = () => {
     navigate(-1);
   };
-  dispatch(authTokenThunk());
+  useEffect(() => {
+    dispatch(authTokenThunk());
+  });
+  let background = location.state && location.state.background;
+
   return (
     <>
       <div className={styles.app}>
         <AppHeader />
-        <Routes>
+        <Routes location={background || location}>
           <Route path='/' element={<ConstructorPage />} />
           <Route path='/feed' element={<Feed />} />
           <Route
@@ -83,33 +80,44 @@ const App = () => {
               </ProtectedRoute>
             }
           >
-            <Route
-              path=':number'
-              element={
-                <ProtectedRoute>
-                  <OrderInfo />
-                </ProtectedRoute>
-              }
-            />
+            {' '}
           </Route>
-          <Route
-            path='/feed/:number'
-            element={
-              <Modal title={'Детали заказа'} onClose={clickModalClose}>
-                <OrderInfo />
-              </Modal>
-            }
-          />
-          <Route
-            path='/ingredients/:id'
-            element={
-              <Modal title={'Детали ингредиента'} onClose={clickModalClose}>
-                <IngredientDetails />
-              </Modal>
-            }
-          />
           <Route path='*' element={<NotFound404 />} />
         </Routes>
+        {background && (
+          <Routes>
+            <Route
+              path='/feed/:number'
+              element={
+                <Modal
+                  title={'Детали заказа'}
+                  onClose={clickModalClose}
+                  children={<OrderInfo />}
+                />
+              }
+            />
+            <Route
+              path='/profile/orders/:number'
+              element={
+                <Modal
+                  title={'Детали заказа'}
+                  onClose={clickModalClose}
+                  children={<OrderInfo />}
+                />
+              }
+            />
+            <Route
+              path='/ingredients/:id'
+              element={
+                <Modal
+                  title={'Детали ингредиента'}
+                  onClose={clickModalClose}
+                  children={<IngredientDetails />}
+                />
+              }
+            />
+          </Routes>
+        )}
       </div>
     </>
   );

@@ -9,7 +9,7 @@ import { addIngridient } from '../../slices/contructorSlice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
-    const location = useLocation();
+    let location = useLocation();
     const dispatch: AppDispatch = useDispatch();
     const handleAdd = () => {
       dispatch(addIngridient(ingredient));

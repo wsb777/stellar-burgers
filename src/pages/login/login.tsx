@@ -15,10 +15,10 @@ export const Login: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(userLoginThunk(data)).then(() => {
-      if (location.state.from.state.from === '/login') {
+      if (location?.state?.from === '/login') {
         return navigate('/profile');
       }
-      return navigate(location.state.from.state.from);
+      return navigate(location?.state?.from);
     });
   };
 
