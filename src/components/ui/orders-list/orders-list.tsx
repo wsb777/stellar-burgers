@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import styles from './orders-list.module.css';
-
+import React from 'react';
 import { OrdersListUIProps } from './type';
 import { OrderCard } from '@components';
 
