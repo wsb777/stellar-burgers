@@ -11,23 +11,23 @@ export const Profile: FC = () => {
   const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
-    name: user.data.name,
-    email: user.data.email,
+    name: user.data?.name || '',
+    email: user.data?.email || '',
     password: user.password
   });
 
   useEffect(() => {
     setFormValue((prevState) => ({
       ...prevState,
-      name: user.data.name,
-      email: user.data.email,
+      name: user.data?.name || '',
+      email: user.data?.email || '',
       password: user.password
     }));
   }, [user]);
 
   const isFormChanged =
-    formValue.name !== user.data.name ||
-    formValue.email !== user.data.email ||
+    formValue.name !== user.data?.name ||
+    formValue.email !== user.data?.email ||
     formValue.password !== user.password;
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -47,8 +47,8 @@ export const Profile: FC = () => {
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user.data.name,
-      email: user.data.email,
+      name: user.data?.name || '',
+      email: user.data?.email || '',
       password: user.password
     });
   };

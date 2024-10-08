@@ -12,26 +12,25 @@ export const BurgerConstructor: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const constructorItems = useSelector((state) => state.constructorBuild);
-  const isAuthChecked = useSelector((state) => state.user.isAuthChecked);
   const orderData = useSelector((state) => state.order);
   const orderRequest = orderData.request;
-  const success = orderData.success;
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
   const onOrderClick = () => {
-    if (!isAuthChecked) {
-      return navigate('/login', { state: { from: location } });
-    }
-    if (!constructorItems.bun || orderRequest) return;
-    const data: string[] = [];
-    data.push(constructorItems.bun._id);
-    data.push(constructorItems.bun._id);
-    constructorItems.ingredients.forEach((e) => {
-      data.push(e._id);
-    });
+    if (!user) {
+      return navigate('/login');
+    } else {
+      if (!constructorItems.bun || orderRequest) return;
+      const data: string[] = [];
+      data.push(constructorItems.bun._id);
+      data.push(constructorItems.bun._id);
+      constructorItems.ingredients.forEach((e) => {
+        data.push(e._id);
+      });
 
-    dispatch(orderCreate(data));
-    if (success) {
-      dispatch(clearStorage());
+      dispatch(orderCreate(data)).finally(() => {
+        dispatch(clearStorage());
+      });
     }
   };
   const closeOrderModal = () => {

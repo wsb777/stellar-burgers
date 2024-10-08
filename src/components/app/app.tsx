@@ -18,7 +18,8 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import { authTokenThunk } from '../../slices/userSlice';
+import { authTokenThunk, checkUserAuth } from '../../slices/userSlice';
+import { ingridientsThunk } from '../../slices/ingridientsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ const App = () => {
     navigate(-1);
   };
   useEffect(() => {
-    dispatch(authTokenThunk());
+    dispatch(authTokenThunk()).finally(() => dispatch(checkUserAuth()));
+    dispatch(ingridientsThunk());
   }, []);
   let background = location.state && location.state.background;
 
@@ -42,16 +44,23 @@ const App = () => {
           <Route
             path='/login'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute onlyUnAuth>
                 <Login />
               </ProtectedRoute>
             }
           />
-          <Route path='/register' element={<Register />} />
+          <Route
+            path='/register'
+            element={
+              <ProtectedRoute onlyUnAuth>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='/forgot-password'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute onlyUnAuth>
                 <ForgotPassword />
               </ProtectedRoute>
             }
@@ -59,7 +68,7 @@ const App = () => {
           <Route
             path='/reset-password'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute onlyUnAuth>
                 <ResetPassword />
               </ProtectedRoute>
             }

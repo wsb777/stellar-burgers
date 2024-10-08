@@ -14,7 +14,7 @@ import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '../utils/cookie';
 
 type userState = {
-  data: TUser;
+  data: TUser | null;
   isLoading: boolean;
   isAuthChecked: boolean;
   success: boolean;
@@ -22,10 +22,7 @@ type userState = {
 };
 
 const initialState: userState = {
-  data: {
-    email: '',
-    name: ''
-  },
+  data: null,
   password: '',
   isAuthChecked: false,
   isLoading: true,
@@ -35,7 +32,11 @@ const initialState: userState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    checkUserAuth: (state) => {
+      state.isAuthChecked = true;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(userRegisterThunk.pending, (state) => {
@@ -44,10 +45,8 @@ const userSlice = createSlice({
       .addCase(userRegisterThunk.fulfilled, (state, action) => {
         state.isLoading = true;
         state.data = action.payload;
-        state.isAuthChecked = true;
       })
       .addCase(userRegisterThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.isLoading = true;
       })
       .addCase(userLoginThunk.pending, (state) => {
@@ -56,26 +55,21 @@ const userSlice = createSlice({
       .addCase(userLoginThunk.fulfilled, (state, action) => {
         state.isLoading = true;
         state.data = action.payload;
-        state.isAuthChecked = true;
       })
       .addCase(userLoginThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.isLoading = true;
       })
       .addCase(authTokenThunk.pending, (state) => {
         state.isLoading = false;
       })
       .addCase(authTokenThunk.fulfilled, (state, action) => {
-        if (state.data.email === action.payload.email) {
-          state.isAuthChecked = false;
+        if (state.data === action.payload) {
         } else {
           state.data = action.payload;
-          state.isAuthChecked = true;
         }
         state.isLoading = true;
       })
       .addCase(authTokenThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.isLoading = true;
       })
       .addCase(logoutThunk.pending, (state) => {
@@ -84,12 +78,9 @@ const userSlice = createSlice({
       .addCase(logoutThunk.fulfilled, (state, action) => {
         state.isLoading = true;
         state.success = action.payload.success;
-        state.data.email = '';
-        state.data.name = '';
-        state.isAuthChecked = false;
+        state.data = null;
       })
       .addCase(logoutThunk.rejected, (state, action) => {
-        state.isAuthChecked = false;
         state.isLoading = true;
       })
       .addCase(resetProfile.pending, (state) => {})
@@ -126,19 +117,21 @@ export const userLoginThunk = createAsyncThunk<TUser, TLoginData>(
   }
 );
 
-export const authTokenThunk = createAsyncThunk<TUser>('auth-user', async () => {
-  let user = initialState.data;
-  if (!initialState.isAuthChecked) {
-    if (getCookie('accessToken') !== undefined) {
+export const authTokenThunk = createAsyncThunk<TUser>(
+  'auth-user',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
       const response = await getUserApi();
-      user = response.user;
       if (!response.success) {
         deleteCookie('accessToken');
+        rejectWithValue('Ошибка валидности токена');
       }
+      return response.user;
+    } catch (error) {
+      return rejectWithValue('Ошибка получения пользователя');
     }
   }
-  return user;
-});
+);
 
 export const logoutThunk = createAsyncThunk('user-logout', async () => {
   const response = await logoutApi();
@@ -154,4 +147,5 @@ export const forgotPassword = createAsyncThunk(
   forgotPasswordApi
 );
 
+export const { checkUserAuth } = userSlice.actions;
 export const userReducer = userSlice.reducer;

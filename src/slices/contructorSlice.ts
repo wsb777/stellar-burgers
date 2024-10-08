@@ -38,7 +38,8 @@ const constructorSlice = createSlice({
         payload: { payload }
       }),
       reducer: (state) => {
-        state = { bun: null, ingredients: [] };
+        state.bun = null;
+        state.ingredients = [];
         localStorage.removeItem('ingridients');
       }
     },

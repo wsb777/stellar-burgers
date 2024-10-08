@@ -55,7 +55,7 @@ const orderSlice = createSlice({
         state.isLoading = true;
         state.data = action.payload.order;
         localStorage.removeItem('ingridients');
-        state.success = state.success;
+        state.success = action.payload.success;
         state.request = false;
       })
       .addCase(orderCreate.rejected, (state, action) => {

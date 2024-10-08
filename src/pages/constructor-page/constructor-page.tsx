@@ -8,11 +8,9 @@ import React from 'react';
 import { ingridientsThunk } from '../../slices/ingridientsSlice';
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-  const isIngredientsLoading = false;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(ingridientsThunk());
-  }, []);
+  const isIngredientsLoading = useSelector(
+    (state) => state.ingridients.isLoading
+  );
   return (
     <>
       {isIngredientsLoading ? (

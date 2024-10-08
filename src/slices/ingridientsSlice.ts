@@ -9,7 +9,7 @@ type ingridientsState = {
 
 const initialState: ingridientsState = {
   data: [],
-  isLoading: true
+  isLoading: false
 };
 
 const ingridientsSlice = createSlice({

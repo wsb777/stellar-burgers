@@ -6,37 +6,41 @@ import React from 'react';
 
 type ProtectedRouteProps = {
   children: React.ReactElement;
+  onlyUnAuth?: boolean;
 };
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  onlyUnAuth,
+  children
+}: ProtectedRouteProps) => {
   const location = useLocation();
   const isAuthChecked = useSelector((state) => state.user.isAuthChecked);
-  const isLoading = useSelector((state) => state.user.isLoading);
   const user = useSelector((state) => state.user.data); // userDataSelector — селектор получения пользователя из store
-  if (!isLoading) {
+  if (!isAuthChecked) {
     // пока идёт чекаут пользователя, показываем прелоадер
     return <Preloader />;
   }
-  const { from } = location.state || { from: { pathname: '/' } };
 
-  if (!user.name) {
-    // если пользователя в хранилище нет, то делаем редирект
-    if (
-      ['/login', '/forgot-password', '/reset-password'].includes(
-        location.pathname
-      )
-    ) {
-      return children;
-    }
-    return <Navigate replace to='/login' state={{ from: location }} />;
-  } else {
-    if (
-      ['/login', '/forgot-password', '/reset-password'].includes(
-        location.pathname
-      )
-    ) {
-      return <Navigate to='/profile' />;
-    }
+  if (onlyUnAuth && user) {
+    const from = location.state?.from || { pathname: '/' };
+    const background = location.state?.from?.background || null;
+    return <Navigate replace to={from} state={{ background }} />;
+  }
+
+  if (!onlyUnAuth && !user) {
+    return (
+      <Navigate
+        replace
+        to={'/login'}
+        state={{
+          from: {
+            ...location,
+            background: location.state?.background,
+            state: null
+          }
+        }}
+      />
+    );
   }
 
   return children;
