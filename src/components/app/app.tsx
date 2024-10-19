@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { authTokenThunk, checkUserAuth } from '../../slices/userSlice';
-import { ingridientsThunk } from '../../slices/ingridientsSlice';
+import { ingredientsThunk } from '../../slices/ingredientsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const App = () => {
   };
   useEffect(() => {
     dispatch(authTokenThunk()).finally(() => dispatch(checkUserAuth()));
-    dispatch(ingridientsThunk());
+    dispatch(ingredientsThunk());
   }, []);
   let background = location.state && location.state.background;
 

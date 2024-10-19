@@ -11,7 +11,7 @@ type TMove = {
   side: string;
 };
 
-const data = localStorage.getItem('ingridients');
+const data = localStorage.getItem('ingredients');
 const initialState: TConstructorState = JSON.parse(
   data || '{"bun":null,"ingredients":[]}'
 );
@@ -30,7 +30,7 @@ const constructorSlice = createSlice({
         } else {
           state.ingredients.push(action.payload);
         }
-        localStorage.setItem('ingridients', JSON.stringify(state));
+        localStorage.setItem('ingredients', JSON.stringify(state));
       }
     },
     clearStorage: {
@@ -40,7 +40,7 @@ const constructorSlice = createSlice({
       reducer: (state) => {
         state.bun = null;
         state.ingredients = [];
-        localStorage.removeItem('ingridients');
+        localStorage.removeItem('ingredients');
       }
     },
     deleteIngridient: {
@@ -49,7 +49,7 @@ const constructorSlice = createSlice({
       }),
       reducer: (state, action: PayloadAction<number>) => {
         state.ingredients.splice(action.payload, 1);
-        localStorage.setItem('ingridients', JSON.stringify(state));
+        localStorage.setItem('ingredients', JSON.stringify(state));
       }
     },
     moveIngrident: {
@@ -76,7 +76,7 @@ const constructorSlice = createSlice({
               state.ingredients[action.payload.index - 1]
             ];
         }
-        localStorage.setItem('ingridients', JSON.stringify(state));
+        localStorage.setItem('ingredients', JSON.stringify(state));
       }
     }
   },

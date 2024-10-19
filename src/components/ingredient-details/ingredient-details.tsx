@@ -7,9 +7,9 @@ import React from 'react';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
-  const ingridientId = useParams();
+  const ingredientId = useParams();
   const data = useSelector((state) =>
-    state.ingridients.data.find((e) => e._id === ingridientId.id)
+    state.ingredients.data.find((e) => e._id === ingredientId.id)
   );
   const ingredientData = data;
 

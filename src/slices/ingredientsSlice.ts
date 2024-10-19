@@ -2,18 +2,18 @@ import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 
-type ingridientsState = {
+type ingredientsState = {
   data: TIngredient[];
   isLoading: boolean;
 };
 
-const initialState: ingridientsState = {
+const initialState: ingredientsState = {
   data: [],
   isLoading: false
 };
 
-const ingridientsSlice = createSlice({
-  name: 'ingridients',
+const ingredientsSlice = createSlice({
+  name: 'ingredients',
   initialState,
   reducers: {},
   selectors: {
@@ -24,21 +24,21 @@ const ingridientsSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(ingridientsThunk.fulfilled, (state, action) => {
+    builder.addCase(ingredientsThunk.fulfilled, (state, action) => {
       state.data = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(ingridientsThunk.rejected, (state, action) => {
+    builder.addCase(ingredientsThunk.rejected, (state, action) => {
       state.isLoading = false;
     });
-    builder.addCase(ingridientsThunk.pending, (state, action) => {
+    builder.addCase(ingredientsThunk.pending, (state, action) => {
       state.isLoading = true;
     });
   }
 });
 
-export const ingridientsThunk = createAsyncThunk('ingridients', async () =>
+export const ingredientsThunk = createAsyncThunk('ingredients', async () =>
   getIngredientsApi()
 );
-export const { getIngridientById } = ingridientsSlice.selectors;
-export const ingridientsReducer = ingridientsSlice.reducer;
+export const { getIngridientById } = ingredientsSlice.selectors;
+export const ingredientsReducer = ingredientsSlice.reducer;

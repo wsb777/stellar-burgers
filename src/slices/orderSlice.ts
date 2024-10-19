@@ -4,7 +4,7 @@ import { TOrder } from '@utils-types';
 
 type orderState = {
   data: TOrder | null;
-  ingridients: string[];
+  ingredients: string[];
   isLoading: boolean;
   success: boolean;
   request: boolean;
@@ -14,7 +14,7 @@ type orderState = {
 
 const initialState: orderState = {
   data: null,
-  ingridients: [],
+  ingredients: [],
   isLoading: true,
   success: false,
   request: false,
@@ -32,7 +32,7 @@ const orderSlice = createSlice({
       }),
 
       reducer: (state, action: PayloadAction<string[]>) => {
-        state.ingridients = action.payload;
+        state.ingredients = action.payload;
       }
     },
     resetOrder: {
@@ -54,7 +54,7 @@ const orderSlice = createSlice({
       .addCase(orderCreate.fulfilled, (state, action) => {
         state.isLoading = true;
         state.data = action.payload.order;
-        localStorage.removeItem('ingridients');
+        localStorage.removeItem('ingredients');
         state.success = action.payload.success;
         state.request = false;
       })
@@ -85,7 +85,7 @@ const orderSlice = createSlice({
 });
 
 export const orderCreate = createAsyncThunk(
-  'order-ingridients',
+  'order-ingredients',
   async (data: string[]) => {
     const response = await orderBurgerApi(data);
     return response;

@@ -5,11 +5,11 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC, useEffect } from 'react';
 import React from 'react';
-import { ingridientsThunk } from '../../slices/ingridientsSlice';
+import { ingredientsThunk } from '../../slices/ingredientsSlice';
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
   const isIngredientsLoading = useSelector(
-    (state) => state.ingridients.isLoading
+    (state) => state.ingredients.isLoading
   );
   return (
     <>

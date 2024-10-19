@@ -18,7 +18,7 @@ export const OrderInfo: FC = () => {
   const orderData = orderViewData[0];
 
   const ingredients: TIngredient[] = useSelector(
-    (state) => state.ingridients.data
+    (state) => state.ingredients.data
   );
 
   /* Готовим данные для отображения */
