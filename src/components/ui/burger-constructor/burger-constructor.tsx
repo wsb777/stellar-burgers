@@ -79,6 +79,7 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         <CurrencyIcon type='primary' />
       </div>
       <Button
+        data-cy='order-button'
         htmlType='button'
         type='primary'
         size='large'
@@ -88,13 +89,18 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
     </div>
 
     {orderRequest && (
-      <Modal onClose={closeOrderModal} title={'Оформляем заказ...'}>
+      <Modal
+        data-cy='order-modal'
+        onClose={closeOrderModal}
+        title={'Оформляем заказ...'}
+      >
         <Preloader />
       </Modal>
     )}
 
     {orderModalData && (
       <Modal
+        data-cy='order-modal'
         onClose={closeOrderModal}
         title={orderRequest ? 'Оформляем заказ...' : ''}
       >

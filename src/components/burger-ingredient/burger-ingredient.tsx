@@ -16,6 +16,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
 
     return (
       <BurgerIngredientUI
+        data-cy='ingredient-link'
         ingredient={ingredient}
         count={count}
         locationState={{ background: location }}

@@ -119,6 +119,7 @@ const App = () => {
               path='/ingredients/:id'
               element={
                 <Modal
+                  data-cy='modal'
                   title={'Детали ингредиента'}
                   onClose={clickModalClose}
                   children={<IngredientDetails />}
