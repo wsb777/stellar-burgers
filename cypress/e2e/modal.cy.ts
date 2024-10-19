@@ -12,9 +12,15 @@ describe('modal', function () {
         cy.get('[data-cy="modal"').should('exist');
     })
 
-    it('modal close', function() {
+    it('modal close button', function() {
         cy.get('[data-cy="ingredient-link"]').first().click();
         cy.get('[data-cy="close-modal"').click();
+        cy.get('[data-cy="modal"').should('not.exist');
+    })
+
+    it('modal close overlay', function() {
+        cy.get('[data-cy="ingredient-link"]').first().click();
+        cy.get('[data-cy="modal-overlay"').click({force:true});
         cy.get('[data-cy="modal"').should('not.exist');
     })
 })
