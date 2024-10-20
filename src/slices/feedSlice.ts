@@ -13,7 +13,7 @@ const initialState: orderState = {
     total: NaN,
     totalToday: NaN
   },
-  isLoading: true
+  isLoading: false
 };
 
 const feedSlice = createSlice({
