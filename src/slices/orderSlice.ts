@@ -26,15 +26,6 @@ const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    createOrder: {
-      prepare: (payload: string[]) => ({
-        payload: { ...payload }
-      }),
-
-      reducer: (state, action: PayloadAction<string[]>) => {
-        state.ingredients = action.payload;
-      }
-    },
     resetOrder: {
       prepare: (payload?) => ({
         payload: { payload }
