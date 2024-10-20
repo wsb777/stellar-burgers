@@ -1,5 +1,18 @@
 {
   "name": "react-canonical",
+  "jest": {
+    "verbose": true,
+    "moduleNameMapper": {
+      "^@pages": "<rootDir>/src/pages",
+      "^@components": "<rootDir>/src/components",
+      "^@ui": "<rootDir>/src/components/ui",
+      "^@ui-pages": "<rootDir>/src/components/ui/pages",
+      "^@utils-types": "<rootDir>/src/utils/types",
+      "^@api": "<rootDir>/src/utils/burger-api.ts",
+      "^@slices": "<rootDir>/src/services/slices",
+      "^@selectors": "<rootDir>/src/services/selectors"
+    }
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -94,7 +107,8 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier ./src --write",
-    "cypress": "cypress"
+    "cypress": "cypress",
+    "test": "jest --env=jsdom"
   },
   "eslintConfig": {
     "extends": [
