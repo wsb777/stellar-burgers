@@ -5,13 +5,14 @@ import { ingredientsReducer } from '../slices/ingredientsSlice';
 import { feedReducer } from '../slices/feedSlice';
 import { userReducer } from '../slices/userSlice';
 import { orderReducer } from '../slices/orderSlice';
+import store from '../services/store';
 
 // jest.mock('../slices/ingredientsSlice/getIngredientsApi');
 
 describe('rootReducer tests', () => {
   it('rootReducer init', () => {
     const initAction = { type: '@@INIT' };
-    const state = rootReducer(undefined, initAction);
+    const state = rootReducer({...store.getState}, initAction);
     expect(state).toEqual({
       constructorBuild: constructorReducer(undefined, initAction),
       ingredients: ingredientsReducer(undefined, initAction),
