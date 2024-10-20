@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import React from 'react';
 import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 
