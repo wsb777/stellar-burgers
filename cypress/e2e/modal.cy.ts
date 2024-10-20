@@ -9,8 +9,8 @@ describe('modal', function () {
 
     it('modal open', function() {
         cy.get('[data-cy="modal"').should('not.exist');
-        cy.get('[data-cy="ingredient-link"]').first().click();
-        cy.get('[data-cy="modal"').should('exist');
+        cy.get('[data-cy="ingredient-link"]').contains('Ингредиент 1').click();
+        cy.get('[data-cy="modal"').contains('Ингредиент 1').should('exist');
     })
 
     it('modal close button', function() {

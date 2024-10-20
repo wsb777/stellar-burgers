@@ -13,6 +13,10 @@ describe('post order', function () {
         cy.get('[data-cy="bun"]').contains('Добавить').click();
         cy.get('[data-cy="mains"]').contains('Добавить').click();
         cy.get('[data-cy="order-button"').click();
-        cy.get('[data-cy="order-modal"]').should('exist')
+        cy.get('[data-cy="order-modal"]').should('exist');
+        cy.get('[data-cy="order-modal"]').contains('1').should('exist'); // Проверка на правильность идентификатора заказа
+        cy.get('[data-cy="construcor-bun"]').should('not.exist');
+        cy.get('[data-cy="construcor-bun-2"]').should('not.exist');
+        cy.get('[data-cy="construcor-mains"]').contains('Ингредиент 2').should('not.exist');
     })
 })
