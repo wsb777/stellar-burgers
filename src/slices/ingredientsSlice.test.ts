@@ -33,7 +33,7 @@ describe('IngredientsSlice tests', () => {
         expect(actualState).toEqual(expectedState)
       })
 
-      it('error ingredients', () => {
+      it('fulfilled ingredients', () => {
         const actualState = ingredientsReducer(initialState, ingredientsThunk.fulfilled(ingredient,''))
         const expectedState = {data:ingredient, isLoading: false}
         expect(actualState).toEqual(expectedState)
