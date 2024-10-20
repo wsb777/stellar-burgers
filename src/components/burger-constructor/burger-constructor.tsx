@@ -25,7 +25,6 @@ export const BurgerConstructor: FC = () => {
       data.push(constructorItems.bun._id);
       data.push(constructorItems.bun._id);
       constructorItems.ingredients.forEach((e) => {
-        console.log(typeof e);
         data.push(e._id);
       });
 
