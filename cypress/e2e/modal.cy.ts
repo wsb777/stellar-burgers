@@ -8,6 +8,7 @@ describe('modal', function () {
     })
 
     it('modal open', function() {
+        cy.get('[data-cy="modal"').should('not.exist');
         cy.get('[data-cy="ingredient-link"]').first().click();
         cy.get('[data-cy="modal"').should('exist');
     })

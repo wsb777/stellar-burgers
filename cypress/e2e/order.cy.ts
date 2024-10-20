@@ -9,6 +9,7 @@ describe('post order', function () {
     })
 
     it('post order', function() {
+        cy.get('[data-cy="order-modal"]').should('not.exist')
         cy.get('[data-cy="bun"]').contains('Добавить').click();
         cy.get('[data-cy="mains"]').contains('Добавить').click();
         cy.get('[data-cy="order-button"').click();
