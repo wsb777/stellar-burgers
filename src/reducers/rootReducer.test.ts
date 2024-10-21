@@ -12,13 +12,7 @@ import store from '../services/store';
 describe('rootReducer tests', () => {
   it('rootReducer init', () => {
     const initAction = { type: '@@INIT' };
-    const state = rootReducer({...store.getState}, initAction);
-    expect(state).toEqual({
-      constructorBuild: constructorReducer(undefined, initAction),
-      ingredients: ingredientsReducer(undefined, initAction),
-      feed: feedReducer(undefined, initAction),
-      user: userReducer(undefined, initAction),
-      order: orderReducer(undefined, initAction)
-    });
+    const state = rootReducer(undefined, initAction);
+    expect(state).toEqual(store.getState());
   });
 });
